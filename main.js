@@ -3,9 +3,9 @@ var image = document.getElementById("imageUpload");
 var models = "./";
 
 Promise.all([
-    faceapi.nets.faceRecognitionNet.loadFromUri("/"),
-    faceapi.nets.faceLandmark68Net.loadFromUri("/"),
-    faceapi.nets.ssdMobilenetv1.loadFromUri("/")
+    faceapi.nets.faceRecognitionNet.loadFromUri("./"),
+    faceapi.nets.faceLandmark68Net.loadFromUri("./"),
+    faceapi.nets.ssdMobilenetv1.loadFromUri("./")
 ]).then(startImage())
 
 function startImage() {
