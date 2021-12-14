@@ -27,7 +27,6 @@ function startImage() {
         faceDescriptions.forEach(detection => {
             const box = detection.detection.box
             const drawBox = new faceapi.draw.DrawBox(box, {label: "Face"})
-            faceapi.draw.drawLandmarks(canvas, faceDescriptions);
             drawBox.draw(canvas)
         })
     })
