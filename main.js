@@ -3,10 +3,10 @@ var image = document.getElementById("imageUpload");
 var models = "/library";
 
 Promise.all([
-    faceapi.nets.faceRecognitionNet.loadFromUri(models),
-    faceapi.nets.faceLandmark68Net.loadFromUri(models),
-    faceapi.nets.ssdMobilenetv1.loadFromUri(models)
-]).then(startImage());
+    faceapi.nets.faceRecognitionNet.loadFromUri("/library"),
+    faceapi.nets.faceLandmark68Net.loadFromUri("/library"),
+    faceapi.nets.ssdMobilenetv1.loadFromUri("/library")
+]).then(startImage())
 
 function startImage() {
     const container = document.createElement("div")
@@ -19,17 +19,15 @@ function startImage() {
         container.append(input)
         const canvas = faceapi.createCanvasFromMedia(input);
         container.append(canvas)
-        let detections = await faceapi.detectAllFaces(input)
-        const displaySize = {width: image.width, height: image.height}
+        const displaySize = { width: input.width, height: input.height }
         faceapi.matchDimensions(canvas, displaySize)
-        .withFaceLandmarks().withFaceDescriptors()
-        document.body.append(detections.length)
-        faceDescriptions = faceapi.resizeResults(detections, displaySize);
-        faceapi.draw.drawDetections(canvas, faceDescriptions)
+        const detections = await faceapi.detectAllFaces(input).withFaceLandmarks().withFaceDescriptors()
+        const faceDescriptions = faceapi.resizeResults(detections, displaySize);
+        //const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor))
         faceDescriptions.forEach(detection => {
             const box = detection.detection.box
-            const draw = faceapi.draw.drawBox(box, {label: "face"})
+            const drawBox = new faceapi.draw.DrawBox(box, {label: "Face"})
             drawBox.draw(canvas)
         })
-    });
+    })
 }
